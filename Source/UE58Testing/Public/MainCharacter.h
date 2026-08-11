@@ -33,14 +33,40 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	class UInputAction* JumpAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	class UInputAction* LockOnAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	class USphereComponent* DetectionSphere;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	float DetectionRadius = 1000.0f;
+
 	
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 	void JumpStarted(const FInputActionValue& Value);
 	void JumpEnded(const FInputActionValue& Value);
+	void LockOn(const FInputActionValue& Value);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LockOn")
+	bool bIsLockedOn = false;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LockOn")
+	AActor* CurrentTarget = nullptr;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LockOn")
+	float LockOnRotationSpeed;
 	
 	
+	UFUNCTION()
+	void UpdateLockOnRotation(float DeltaTime);
 	
+	AActor* GetCurrentTarget();
+	
+	
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
